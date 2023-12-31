@@ -56,12 +56,15 @@ jobs:
 
     - name: Dotnet - Build
       run: dotnet build -c Release --no-restore
+      working-directory: src
 
     - name: Dotnet - Test
       run: dotnet test -c Release --no-restore
+      working-directory: src
 
     - name: Dotnet - Pack
       run: dotnet pack -c Release --no-restore
+      working-directory: src
 
     # - name: Publish - NuGet
     #  if: ${{ env.is-tag == 'true' }}
