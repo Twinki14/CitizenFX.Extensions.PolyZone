@@ -1,0 +1,72 @@
+name: Build - Publish
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      publish:
+        type: boolean
+        default: false
+        description: Publish package
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  is-default-branch: ${{ github.ref_name == github.event.repository.default_branch }}
+  is-tag: ${{ startsWith(github.ref, 'refs/tags/') }}
+  do-manual-publish: ${{ github.event_name == 'workflow_dispatch' && inputs.publish == true }}
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup - GitVersion
+      uses: gittools/actions/gitversion/setup@v0
+      with:
+        versionSpec: '5.x'
+        preferLatestVersion: true
+
+    - name: Setup - .NET Framework 4.8
+      run: |
+        choco install netfx-4.8-devpack -y
+        dotnet --version  # Verify installation
+
+    - name: Setup - .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x
+        source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ github.token }}
+
+    - name: GitVersion
+      id: git-version
+      uses: gittools/actions/gitversion/execute@v0
+      with:
+        useConfigFile: true
+
+    - name: Dotnet - Restore
+      run: dotnet restore
+
+    - name: Dotnet - Build
+      run: dotnet build -c Release --no-restore
+
+    - name: Dotnet - Test
+      run: dotnet test -c Release --no-restore
+
+    - name: Dotnet - Pack
+      run: dotnet pack -c Release --no-restore
+
+    # - name: Publish - NuGet
+    #  if: ${{ env.is-tag == 'true' }}
+    #  run: dotnet nuget push **/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+
+    - name: Publish - GitHub
+      if: ${{ env.is-default-branch == 'true' || env.is-tag == 'true' || env.do-manual-publish == 'true' }}
+      run: dotnet nuget push **/*.nupkg --skip-duplicate
