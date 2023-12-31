@@ -53,6 +53,7 @@ jobs:
 
     - name: Dotnet - Restore
       run: dotnet restore
+      working-directory: src
 
     - name: Dotnet - Build
       run: dotnet build -c Release --no-restore
