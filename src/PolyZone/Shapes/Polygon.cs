@@ -8,6 +8,7 @@ namespace PolyZone.Shapes;
  * - Polygon.DistanceFrom
  * - Vector2d.DistanceFrom(polygon) extension
  * - Vector2d.IsInsidePolygon(polygon) extension
+ * - Build PolyZone.Debug as a client script resource, attach to the release/build run as an artifact
  */
 
 public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
