@@ -1,0 +1,1 @@
+src/PolyZone.Tests/Reference/** linguist-vendored
