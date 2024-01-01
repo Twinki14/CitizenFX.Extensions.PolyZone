@@ -19,31 +19,32 @@ public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
 
     public float DistanceTo(in Vector2 point) => DistanceTo(point, _points);
 
+    // https://web.archive.org/web/20210225074947/http://geomalgorithms.com/a03-_inclusion.html
     private static bool IsInside(in Vector2 point, IReadOnlyList<Vector2> polygon)
     {
         var windingNumber = 0;
         
-        // loop through all edges of the polygon (considering the last edge connecting the last and first vertices)
+        // Loop through all edges of the polygon (considering the last edge connecting the last and first vertices)
         for (var i = 0; i < polygon.Count; i++)
         {
-            // edge from polygon[i] to polygon[(i + 1) % polygon.Count]
+            // Edge from polygon[i] to polygon[(i + 1) % polygon.Count]
             var nextIndex = (i + 1) % polygon.Count;
 
-            // start polygon[i].Y <= point.Y
+            // Start polygon[i].Y <= point.Y
             if (polygon[i].Y <= point.Y)
             {
-                // an upward crossing
+                // An upward crossing
                 if (polygon[nextIndex].Y > point.Y && IsLeft(polygon[i], polygon[nextIndex], point) > 0)
                 {
                     // P left of edge
-                    ++windingNumber; // have a valid up intersect
+                    ++windingNumber;
                 }
             }
-            // start polygon[i].Y > point.Y (no test needed)
+            // Start polygon[i].Y > point.Y (no test needed)
             else if (polygon[nextIndex].Y <= point.Y && IsLeft(polygon[i], polygon[nextIndex], point) < 0)
             {
-                // a downward crossing, P right of edge
-                --windingNumber; // have a valid down intersect
+                // A downward crossing, P right of edge
+                --windingNumber;
             }
         }
 
