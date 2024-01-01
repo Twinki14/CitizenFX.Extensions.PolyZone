@@ -15,35 +15,41 @@ public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
 {
     public readonly IReadOnlyList<Vector2> _points = points;
     
-    public bool IsInside(in Vector2 point) => IsInside(point, _points);
+    public bool IsInside(Vector2 point) => IsInside(point, _points);
 
     public float DistanceTo(in Vector2 point) => DistanceTo(point, _points);
 
     private static bool IsInside(in Vector2 point, IReadOnlyList<Vector2> polygon)
     {
         var windingNumber = 0;
-
-        for (var i = 0; i < polygon.Count - 1; i++)
+        
+        // loop through all edges of the polygon (considering the last edge connecting the last and first vertices)
+        for (var i = 0; i < polygon.Count; i++)
         {
+            // edge from polygon[i] to polygon[(i + 1) % polygon.Count]
+            var nextIndex = (i + 1) % polygon.Count;
+
+            // start polygon[i].Y <= point.Y
             if (polygon[i].Y <= point.Y)
             {
-                if (polygon[i + 1].Y > point.Y && IsLeft(polygon[i], polygon[i + 1], point) > 0)
+                // an upward crossing
+                if (polygon[nextIndex].Y > point.Y && IsLeft(polygon[i], polygon[nextIndex], point) > 0)
                 {
-                    windingNumber++;
+                    // P left of edge
+                    ++windingNumber; // have a valid up intersect
                 }
             }
-            else
+            // start polygon[i].Y > point.Y (no test needed)
+            else if (polygon[nextIndex].Y <= point.Y && IsLeft(polygon[i], polygon[nextIndex], point) < 0)
             {
-                if (polygon[i + 1].Y <= point.Y && IsLeft(polygon[i], polygon[i + 1], point) < 0)
-                {
-                    windingNumber--;
-                }
+                // a downward crossing, P right of edge
+                --windingNumber; // have a valid down intersect
             }
         }
 
         return windingNumber != 0;
     }
-    
+
     private static float DistanceTo(in Vector2 point, in IReadOnlyList<Vector2> polygon)
     {
         var minDistance = float.MaxValue;
@@ -82,7 +88,7 @@ public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
             _ => new Vector2 { X = a.X + t * ab.X, Y = a.Y + t * ab.Y }
         };
     }
-
+    
     private static float IsLeft(Vector2 a, Vector2 b, Vector2 c)
     {
         return (b.X - a.X) * (c.Y - a.Y) - (c.X - a.X) * (b.Y - a.Y);

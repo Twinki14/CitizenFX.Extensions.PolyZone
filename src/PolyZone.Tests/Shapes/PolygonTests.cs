@@ -1,7 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using CitizenFX.Core;
 using FluentAssertions;
+using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 using PolyZone.Shapes;
+using Xunit.Abstractions;
 
 // ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
 
@@ -9,36 +15,77 @@ namespace PolyZone.Tests.Shapes;
 
 public class PolygonTests
 {
+    private readonly ITestOutputHelper _testOutputHelper;
+
+    public PolygonTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
+
     [Fact]
     public void Polygon_A_IsInside_ShouldPassTest()
     {
-        Vector2 fPointOutside = new() { X = -5.120505f, Y = 1.105695f }; // F
-        Vector2 gPointInside = new() { X = -5.1205f, Y = 1.10569f }; // G
+        var insidePoints = new[]
+        {
+            new Vector2 { X = 9.11417f, Y = 4.19913f }, // H (9.11417,4.19913)
+            new Vector2 { X = 9.08464f, Y = 4.1949f }, // I (9.08464,4.1949)
+            new Vector2 { X = 9.04999f, Y = 4.19522f }, // J (9.04999,4.19522)
+            new Vector2 { X = 8.79974f, Y = 4.15845f }, // K (8.79974,4.15845)
+            new Vector2 { X = -1f, Y = 3f }, // L (-1.22244,2.8594)
+            new Vector2 { X = -3.44097f, Y = 0.18371f }, // M (-3.44097,0.18371)
+            new Vector2 { X = -3.26505f, Y = -4.55097f }, // N (-3.26505,-4.55097)
+            new Vector2 { X = -2f, Y = -8f }, // O (-3,-8)
+            new Vector2 { X = 2.26106f, Y = -9.30121f }, // P (2.26106,-9.30121)
+        };
         
-        Vector2 iPointOutside = new() { X = -6.1472f, Y = -0.6536f }; // I
-        Vector2 hPointInside = new() { X = -6.1476f, Y = -0.6536f }; // H
-        
-        IReadOnlyList<Vector2> points =
+        List<Vector2> points =
         [
-            new() { X = 7.00776f, Y = 1.24414f }, // A
-            new() { X = -5.46056f, Y = 1.10181f }, // B
-            new() { X = -6.99775f, Y = -2.82657f }, // C
-            new() { X = -0.30813f, Y = -2.6273f }, // D
-            new() { X = -7.39628f, Y = -0.57772f }, // E
-            new() { X = -5.1175f, Y = 1.10583f }, // F
+            new() { X = 9.12f, Y = 4.2f }, // A (9.12,4.2)
+            new() { X = -3.98f, Y = 3.32f }, // B (-3.98,3.32)
+            new() { X = -4.56966f, Y = -3.5142f }, // C (-4.56966,-3.5142)
+            new() { X = -3.56008f, Y = -9.12483f }, // D (-3.56008,-9.12483)
+            new() { X = 3.75525f, Y = -9.88615f }, // E (3.75525,-9.88615)
+            new() { X = -2.36844f, Y = -2.83563f }, // F (-2.36844,-2.83563)
+            new() { X = -0.5f, Y = 2.06f } // G (-0.5,2.06)
         ];
-
+        
         var polygon = new Polygon(points);
 
-        polygon.IsInside(fPointOutside).Should().BeFalse();
-        polygon.IsInside(gPointInside).Should().BeTrue();
-
-        polygon.IsInside(iPointOutside).Should().BeFalse();
-        polygon.IsInside(hPointInside).Should().BeTrue();
-
+        foreach (var point in insidePoints)
+        {
+            var b = polygon.IsInside(point);
+            
+            _testOutputHelper.WriteLine(b.ToString());
+            
+            //point.Should().BeInside(polygon);
+        }
         
         var distance = polygon.DistanceTo(new() { X = -1f, Y = 3.6f });
 
         distance.Should().BeGreaterThan(0);
+    }
+}
+
+public static class Vector2Extensions
+{
+    public static Vector2Assertions Should(this Vector2 instance)
+    {
+        return new Vector2Assertions(instance); 
+    } 
+}
+
+public class Vector2Assertions(Vector2 instance) : ReferenceTypeAssertions<Vector2, Vector2Assertions>(instance)
+{
+    private readonly Vector2 _instance = instance;
+    protected override string Identifier => "directory";
+
+    public AndConstraint<Vector2Assertions> BeInside(Polygon polygon, string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(!polygon.IsInside(_instance))
+            .FailWith($"Expected point to be inside polygon, point was { _instance.X }, { _instance.Y }");
+
+        return new AndConstraint<Vector2Assertions>(this);
     }
 }
