@@ -13,9 +13,11 @@ namespace PolyZone.Shapes;
 
 public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
 {
-    public bool IsInside(in Vector2 point) => IsInside(point, points);
+    public readonly IReadOnlyList<Vector2> _points = points;
+    
+    public bool IsInside(in Vector2 point) => IsInside(point, _points);
 
-    public float DistanceTo(in Vector2 point) => DistanceTo(point, points);
+    public float DistanceTo(in Vector2 point) => DistanceTo(point, _points);
 
     private static bool IsInside(in Vector2 point, IReadOnlyList<Vector2> polygon)
     {
