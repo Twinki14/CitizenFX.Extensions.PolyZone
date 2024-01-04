@@ -3,24 +3,22 @@ using PolyZone.Shapes.Interfaces;
 
 namespace PolyZone.Shapes;
 
-/**
- * - Polygon.Contains
- * - Polygon.DistanceFrom
- * - Vector2d.DistanceFrom(polygon) extension
- * - Vector2d.IsInsidePolygon(polygon) extension
- * - Build PolyZone.Debug as a client script resource, attach to the release/build run as an artifact
- */
-
+/// <summary>
+/// A 2d polygonal shape, made up of points in a sequential order
+/// </summary>
+/// <param name="points">A list of <see cref="Vector2"/> in sequential order, to make-up a polygonal shape</param>
 public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
 {
-    public readonly IReadOnlyList<Vector2> _points = points;
+    public readonly IReadOnlyList<Vector2> Points = points;
     
-    public bool Contains(Vector2 point) => IsInside(point, _points);
+    /// <inheritdoc cref="ISpatial2dShape.Contains"/>
+    public bool Contains(Vector2 point) => Contains(point, Points);
 
-    public float DistanceFrom(in Vector2 point) => DistanceTo(point, _points);
+    /// <inheritdoc cref="ISpatial2dShape.DistanceFrom"/>
+    public float DistanceFrom(in Vector2 point) => DistanceFrom(point, Points);
 
     // https://web.archive.org/web/20210225074947/http://geomalgorithms.com/a03-_inclusion.html
-    private static bool IsInside(in Vector2 point, IReadOnlyList<Vector2> polygon)
+    private static bool Contains(in Vector2 point, IReadOnlyList<Vector2> polygon)
     {
         var windingNumber = 0;
         
@@ -51,7 +49,7 @@ public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
         return windingNumber != 0;
     }
 
-    private static float DistanceTo(in Vector2 point, in IReadOnlyList<Vector2> polygon)
+    private static float DistanceFrom(in Vector2 point, in IReadOnlyList<Vector2> polygon)
     {
         var minDistance = float.MaxValue;
 
