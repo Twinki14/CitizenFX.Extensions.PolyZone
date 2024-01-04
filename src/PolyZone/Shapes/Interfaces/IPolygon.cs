@@ -4,6 +4,6 @@ namespace PolyZone.Shapes.Interfaces;
 
 public interface IPolygon
 { 
-    bool IsInside(Vector2 point);
-    float DistanceTo(in Vector2 point);
+    bool Contains(Vector2 point);
+    float DistanceFrom(in Vector2 point);
 }

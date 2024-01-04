@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Collections.Generic;
 using CitizenFX.Core;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using PolyZone.Shapes;
+using PolyZone.Tests.Internal;
 using Xunit.Abstractions;
 
 // ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
@@ -53,39 +51,11 @@ public class PolygonTests
 
         foreach (var point in insidePoints)
         {
-            var b = polygon.IsInside(point);
-            
-            _testOutputHelper.WriteLine(b.ToString());
-            
-            //point.Should().BeInside(polygon);
+            point.Should().BeInside(polygon);
         }
         
-        var distance = polygon.DistanceTo(new() { X = -1f, Y = 3.6f });
+        var distance = polygon.DistanceFrom(new() { X = -1f, Y = 3.6f });
 
         distance.Should().BeGreaterThan(0);
-    }
-}
-
-public static class Vector2Extensions
-{
-    public static Vector2Assertions Should(this Vector2 instance)
-    {
-        return new Vector2Assertions(instance); 
-    } 
-}
-
-public class Vector2Assertions(Vector2 instance) : ReferenceTypeAssertions<Vector2, Vector2Assertions>(instance)
-{
-    private readonly Vector2 _instance = instance;
-    protected override string Identifier => "directory";
-
-    public AndConstraint<Vector2Assertions> BeInside(Polygon polygon, string because = "", params object[] becauseArgs)
-    {
-        Execute.Assertion
-            .BecauseOf(because, becauseArgs)
-            .ForCondition(!polygon.IsInside(_instance))
-            .FailWith($"Expected point to be inside polygon, point was { _instance.X }, { _instance.Y }");
-
-        return new AndConstraint<Vector2Assertions>(this);
     }
 }

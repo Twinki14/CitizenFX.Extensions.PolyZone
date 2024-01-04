@@ -15,9 +15,9 @@ public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
 {
     public readonly IReadOnlyList<Vector2> _points = points;
     
-    public bool IsInside(Vector2 point) => IsInside(point, _points);
+    public bool Contains(Vector2 point) => IsInside(point, _points);
 
-    public float DistanceTo(in Vector2 point) => DistanceTo(point, _points);
+    public float DistanceFrom(in Vector2 point) => DistanceTo(point, _points);
 
     // https://web.archive.org/web/20210225074947/http://geomalgorithms.com/a03-_inclusion.html
     private static bool IsInside(in Vector2 point, IReadOnlyList<Vector2> polygon)
