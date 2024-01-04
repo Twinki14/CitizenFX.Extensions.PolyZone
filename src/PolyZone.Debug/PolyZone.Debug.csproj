@@ -8,6 +8,7 @@
     <OutputPath>./bin/fivem/client</OutputPath>
     <AssemblyName>CitizenFX.Extensions.PolyZone.Debug.net</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
