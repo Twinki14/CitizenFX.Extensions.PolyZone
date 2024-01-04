@@ -14,4 +14,8 @@
     <Folder Include="Drawing\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CitizenFX.Core.Client" Version="1.0.7277" />
+  </ItemGroup>
+
 </Project>

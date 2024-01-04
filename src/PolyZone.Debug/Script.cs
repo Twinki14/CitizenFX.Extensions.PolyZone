@@ -1,6 +1,8 @@
-﻿namespace PolyZone.Debug;
+﻿using CitizenFX.Core;
 
-public class Script
+namespace PolyZone.Debug;
+
+public class Script : BaseScript
 {
     
 }

@@ -2,7 +2,7 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
-using PolyZone.Shapes;
+using PolyZone.Shapes.Interfaces;
 
 namespace PolyZone.Tests.Internal;
 
@@ -16,15 +16,14 @@ public static class Vector2AssertionExtensions
 
 public class Vector2Assertions(Vector2 instance) : ReferenceTypeAssertions<Vector2, Vector2Assertions>(instance)
 {
-    private readonly Vector2 _instance = instance;
     protected override string Identifier => "directory";
 
-    public AndConstraint<Vector2Assertions> BeInside(Polygon polygon, string because = "", params object[] becauseArgs)
+    public AndConstraint<Vector2Assertions> BeInside(ISpatial2dShape shape, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .ForCondition(polygon.Contains(_instance))
-            .FailWith($"Expected point to be inside polygon, point was { _instance.X }, { _instance.Y }");
+            .ForCondition(shape.Contains(instance))
+            .FailWith($"Expected point to be inside polygon, point was { instance.X }, { instance.Y }");
 
         return new AndConstraint<Vector2Assertions>(this);
     }

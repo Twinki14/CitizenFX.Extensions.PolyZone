@@ -1,25 +1,12 @@
-﻿using System.Collections.Generic;
-using CitizenFX.Core;
+﻿using CitizenFX.Core;
 using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
 using PolyZone.Shapes;
 using PolyZone.Tests.Internal;
-using Xunit.Abstractions;
-
-// ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
 
 namespace PolyZone.Tests.Shapes;
 
 public class PolygonTests
 {
-    private readonly ITestOutputHelper _testOutputHelper;
-
-    public PolygonTests(ITestOutputHelper testOutputHelper)
-    {
-        _testOutputHelper = testOutputHelper;
-    }
-
     [Fact]
     public void Polygon_A_IsInside_ShouldPassTest()
     {
@@ -35,17 +22,17 @@ public class PolygonTests
             new Vector2 { X = -2f, Y = -8f }, // O (-3,-8)
             new Vector2 { X = 2.26106f, Y = -9.30121f }, // P (2.26106,-9.30121)
         };
-        
-        List<Vector2> points =
-        [
-            new() { X = 9.12f, Y = 4.2f }, // A (9.12,4.2)
-            new() { X = -3.98f, Y = 3.32f }, // B (-3.98,3.32)
-            new() { X = -4.56966f, Y = -3.5142f }, // C (-4.56966,-3.5142)
-            new() { X = -3.56008f, Y = -9.12483f }, // D (-3.56008,-9.12483)
-            new() { X = 3.75525f, Y = -9.88615f }, // E (3.75525,-9.88615)
-            new() { X = -2.36844f, Y = -2.83563f }, // F (-2.36844,-2.83563)
-            new() { X = -0.5f, Y = 2.06f } // G (-0.5,2.06)
-        ];
+
+        var points = new[]
+        {
+            new Vector2 { X = 9.12f, Y = 4.2f }, // A (9.12,4.2)
+            new Vector2 { X = -3.98f, Y = 3.32f }, // B (-3.98,3.32)
+            new Vector2 { X = -4.56966f, Y = -3.5142f }, // C (-4.56966,-3.5142)
+            new Vector2 { X = -3.56008f, Y = -9.12483f }, // D (-3.56008,-9.12483)
+            new Vector2 { X = 3.75525f, Y = -9.88615f }, // E (3.75525,-9.88615)
+            new Vector2 { X = -2.36844f, Y = -2.83563f }, // F (-2.36844,-2.83563)
+            new Vector2 { X = -0.5f, Y = 2.06f } // G (-0.5,2.06)
+        };
         
         var polygon = new Polygon(points);
 
@@ -54,7 +41,7 @@ public class PolygonTests
             point.Should().BeInside(polygon);
         }
         
-        var distance = polygon.DistanceFrom(new() { X = -1f, Y = 3.6f });
+        var distance = polygon.DistanceFrom(new Vector2 { X = -1f, Y = 3.6f });
 
         distance.Should().BeGreaterThan(0);
     }
