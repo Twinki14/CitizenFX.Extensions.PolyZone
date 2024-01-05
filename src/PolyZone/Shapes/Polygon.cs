@@ -12,7 +12,7 @@ public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
     public readonly IReadOnlyList<Vector2> Points = points;
     
     /// <inheritdoc cref="ISpatial2dShape.Contains"/>
-    public bool Contains(Vector2 point) => Contains(point, Points);
+    public bool Contains(in Vector2 point) => Contains(point, Points);
 
     /// <inheritdoc cref="ISpatial2dShape.DistanceFrom"/>
     public float DistanceFrom(in Vector2 point) => DistanceFrom(point, Points);

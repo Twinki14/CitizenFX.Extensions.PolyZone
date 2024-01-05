@@ -12,7 +12,7 @@ public interface ISpatial2dShape
     /// </summary>
     /// <param name="point"><see cref="Vector2"/>, otherwise known as a 2d position</param>
     /// <returns>True if the <see cref="Vector2"/> is inside the shape</returns>
-    bool Contains(Vector2 point);
+    bool Contains(in Vector2 point);
     
     /// <summary>
     /// Calculates the float-accurate distance from a <see cref="Vector2"/> to the shape
