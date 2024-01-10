@@ -8,11 +8,11 @@ using GeoJSON.Text.Geometry;
 using PolyZone.Shapes.Interfaces;
 using Polygon = PolyZone.Shapes.Polygon;
 
-namespace PolyZone.Tests;
+namespace PolyZone.Tests.Internal;
 
-public static class Helpers
+internal static class Helpers
 {
-    public static string GetPolygonArrayString(List<IPolygon> polygons)
+    internal static string GetPolygonArrayString(List<IPolygon> polygons)
     {
         var resultBuilder = new StringBuilder();
 
@@ -31,7 +31,7 @@ public static class Helpers
         return resultBuilder.ToString();
     }
     
-    public static IEnumerable<Vector2> GetPointsFromGeoCollection(FeatureCollection featureCollection)
+    internal static IEnumerable<Vector2> GetPointsFromGeoCollection(FeatureCollection featureCollection)
     {
         var points = new List<Vector2>();
         
@@ -53,7 +53,7 @@ public static class Helpers
         return points;
     }
 
-    public static IEnumerable<Polygon> GetPolygonsFromGeoCollection(FeatureCollection featureCollection)
+    internal static IEnumerable<Polygon> GetPolygonsFromGeoCollection(FeatureCollection featureCollection)
     {
         var polygons = new List<Polygon>();
         
