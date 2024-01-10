@@ -14,7 +14,7 @@ public class CircleTests
         var insidePoints = new[]
         {
             new Vector2 { X = -10.41f, Y = 0.65f },
-            new Vector2 { X = -8.54f, Y = -2.25f },
+            new Vector2 { X = -8.54f, Y = -2.25f }
         };
         
         var outsidePoints = new[]

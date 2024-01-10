@@ -12,7 +12,7 @@ namespace PolyZone.Tests.Shapes;
 public class PolygonTests
 {
     [Fact]
-    public void Polygon_EveryIslandShouldHaveOnePoint()
+    public void GeoJson_EveryIslandHasOnePoint()
     {
         var islandsGeoJson = File.ReadAllText("./Data/10m_minor_islands.geojson");
         var pointsGeoJson = File.ReadAllText("./Data/10m_minor_islands_label_points.geojson");
@@ -28,7 +28,6 @@ public class PolygonTests
             point.Should().BeInsideOnlyOneOf(islands);
         }
     }
-    
     
     [Fact]
     public void Polygon_A_IsInside_ShouldPassTest()
