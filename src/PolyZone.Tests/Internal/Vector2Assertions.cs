@@ -1,4 +1,6 @@
-﻿using CitizenFX.Core;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CitizenFX.Core;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -24,7 +26,25 @@ public class Vector2Assertions(Vector2 instance) : ReferenceTypeAssertions<Vecto
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(shape.Contains(_instance))
-            .FailWith($"Expected point to be inside polygon, point was { _instance.X }, { _instance.Y }");
+            .FailWith($"Expected point to be inside shape, point was { _instance.X }, { _instance.Y }");
+
+        return new AndConstraint<Vector2Assertions>(this);
+    }
+    
+    public AndConstraint<Vector2Assertions> BeInsideOnlyOneOf(IEnumerable<IPolygon> polygons, string because = "", params object[] becauseArgs)
+    {
+        var polygonsString = "";
+        var insidePolygons = polygons.Where(p => p.Contains(_instance)).ToList();
+        
+        if (insidePolygons.Count > 1)
+        {
+            polygonsString = Helpers.GetPolygonArrayString(insidePolygons);
+        }
+        
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(insidePolygons.Count == 1)
+            .FailWith($"Expected point {_instance.X} {_instance.Y} to be inside only one of these polygons, but was inside {insidePolygons.Count}\n{polygonsString}");
 
         return new AndConstraint<Vector2Assertions>(this);
     }
@@ -34,7 +54,7 @@ public class Vector2Assertions(Vector2 instance) : ReferenceTypeAssertions<Vecto
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(shape.Contains(_instance) is false)
-            .FailWith($"Expected point to be outside polygon, point was { _instance.X }, { _instance.Y }");
+            .FailWith($"Expected point to be outside shape, point was { _instance.X }, { _instance.Y }");
 
         return new AndConstraint<Vector2Assertions>(this);
     }

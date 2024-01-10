@@ -9,7 +9,7 @@ namespace PolyZone.Shapes;
 /// <param name="points">A list of <see cref="Vector2"/> in sequential order, to make-up a polygonal shape</param>
 public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
 {
-    public readonly IReadOnlyList<Vector2> Points = points;
+    public IReadOnlyList<Vector2> Points { get; } = points;
     
     /// <inheritdoc cref="ISpatial2dShape.Contains"/>
     public bool Contains(in Vector2 point) => Contains(point, Points);

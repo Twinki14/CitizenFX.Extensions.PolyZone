@@ -1,5 +1,9 @@
-﻿using CitizenFX.Core;
+﻿using System.IO;
+using System.Linq;
+using System.Text.Json;
+using CitizenFX.Core;
 using FluentAssertions;
+using GeoJSON.Text.Feature;
 using PolyZone.Shapes;
 using PolyZone.Tests.Internal;
 
@@ -7,6 +11,25 @@ namespace PolyZone.Tests.Shapes;
 
 public class PolygonTests
 {
+    [Fact]
+    public void Polygon_EveryIslandShouldHaveOnePoint()
+    {
+        var islandsGeoJson = File.ReadAllText("./Data/10m_minor_islands.geojson");
+        var pointsGeoJson = File.ReadAllText("./Data/10m_minor_islands_label_points.geojson");
+        
+        var islandCollection = JsonSerializer.Deserialize<FeatureCollection>(islandsGeoJson);
+        var pointCollection = JsonSerializer.Deserialize<FeatureCollection>(pointsGeoJson);
+
+        var islands = Helpers.GetPolygonsFromGeoCollection(islandCollection!).ToList();
+        var points = Helpers.GetPointsFromGeoCollection(pointCollection!).ToList();
+        
+        foreach (var point in points)
+        {
+            point.Should().BeInsideOnlyOneOf(islands);
+        }
+    }
+    
+    
     [Fact]
     public void Polygon_A_IsInside_ShouldPassTest()
     {
