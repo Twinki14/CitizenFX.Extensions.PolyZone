@@ -6,16 +6,17 @@ using PolyZone.Shapes;
 
 namespace PolyZone.Benchmark.Shapes;
 
-[SimpleJob(RuntimeMoniker.Net47)]
+[SimpleJob(RuntimeMoniker.Net462)]
+[SimpleJob(RuntimeMoniker.Net472)]
 [SimpleJob(RuntimeMoniker.NetCoreApp20)]
 [SimpleJob(RuntimeMoniker.Net80, baseline: true)]
-[RPlotExporter]
+[MarkdownExporter]
 public class PolygonBenchmarks
 {
-    [Params(1000, 50000)]
+    [Params(50000, 100000)]
     public int Polygons;
     
-    [Params(100, 250, 500)]
+    [Params(100)]
     public int PointsPer;
 
     private Polygon[] _polygons = [];
@@ -51,7 +52,6 @@ public class PolygonBenchmarks
     public void PolygonContains_Parallel()
     {
         var testPoint = new Vector2 { X = 0, Y = 0 };
-        
         Parallel.ForEach(_polygons, polygon =>
         {
             polygon.Contains(testPoint);
