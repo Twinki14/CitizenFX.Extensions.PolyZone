@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolyZone.Tests", "PolyZone.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolyZone.Debug", "PolyZone.Debug\PolyZone.Debug.csproj", "{C8AECFAA-D319-4FCA-A44C-66F92AADFD7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolyZone.Benchmark", "PolyZone.Benchmark\PolyZone.Benchmark.csproj", "{7C2BA68C-4791-4143-8840-B8C9FD29031F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{C8AECFAA-D319-4FCA-A44C-66F92AADFD7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8AECFAA-D319-4FCA-A44C-66F92AADFD7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8AECFAA-D319-4FCA-A44C-66F92AADFD7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C2BA68C-4791-4143-8840-B8C9FD29031F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C2BA68C-4791-4143-8840-B8C9FD29031F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C2BA68C-4791-4143-8840-B8C9FD29031F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C2BA68C-4791-4143-8840-B8C9FD29031F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
