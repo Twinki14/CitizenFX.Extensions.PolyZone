@@ -8,10 +8,9 @@ using PolyZone.Shapes;
 
 namespace PolyZone.Benchmark.Shapes;
 
-[SimpleJob(RuntimeMoniker.Net462)]
-[SimpleJob(RuntimeMoniker.Net472)]
+[SimpleJob(RuntimeMoniker.Net472, baseline: true)]
 [SimpleJob(RuntimeMoniker.NetCoreApp20)]
-[SimpleJob(RuntimeMoniker.Net80, baseline: true)]
+[SimpleJob(RuntimeMoniker.Net80)]
 [MarkdownExporter]
 public class PolygonGeoBenchmark
 {
