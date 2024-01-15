@@ -9,7 +9,7 @@ public class CircleTests
     [Fact]
     public void CircleA()
     {
-        var circle = new Circle(-7.7f, -3.55f, 5f);
+        var circle = new Circle(new Vector2 { X = -7.7f, Y = -3.55f }, 5f);
 
         var insidePoints = new[]
         {

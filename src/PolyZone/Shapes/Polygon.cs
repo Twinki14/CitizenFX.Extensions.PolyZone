@@ -9,15 +9,14 @@ namespace PolyZone.Shapes;
 /// <param name="points">A list of <see cref="Vector2"/> in sequential order, to make-up a polygonal shape</param>
 public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
 {
-    private Vector2? _min;
-    private Vector2? _max;
+    private Rectangle? _boundingBox = null;
 
     public IReadOnlyList<Vector2> Points { get; } = points;
 
     /// <inheritdoc cref="ISpatial2dShape.Contains"/>
     public bool Contains(in Vector2 point)
     {
-        if (_min is null || _max is null)
+        if (_boundingBox is null)
         {
             float minX = float.MaxValue, minY = float.MaxValue;
             float maxX = float.MinValue, maxY = float.MinValue;
@@ -30,22 +29,20 @@ public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
                 maxY = Math.Max(maxY, vertex.Y);
             }
 
-            _min = new Vector2 { X = minX, Y = minY };
-            _max = new Vector2 { X = maxX, Y = maxY };
+            _boundingBox = new Rectangle(new Vector2 { X = minX, Y = minY }, new Vector2 { X = maxX, Y = maxY });
         }
         
-        return Contains(point, Points, _min.Value, _max.Value);
+        return Contains(point, Points, _boundingBox);
     }
 
     /// <inheritdoc cref="ISpatial2dShape.DistanceFrom"/>
     public float DistanceFrom(in Vector2 point) => DistanceFrom(point, Points);
 
     // https://web.archive.org/web/20210225074947/http://geomalgorithms.com/a03-_inclusion.html
-    private static bool Contains(in Vector2 point, IReadOnlyList<Vector2> polygon, in Vector2 boundingBoxMin, in Vector2 boundingBoxMax)
+    private static bool Contains(in Vector2 point, IReadOnlyList<Vector2> polygon, in Rectangle boundingBox)
     {
-        if (point.X < boundingBoxMin.X || point.X > boundingBoxMax.X || point.Y < boundingBoxMin.Y || point.Y > boundingBoxMax.Y)
+        if (!boundingBox.Contains(point))
         {
-            // Point is outside the bounding box, so it's definitely outside the polygon
             return false;
         }
         
