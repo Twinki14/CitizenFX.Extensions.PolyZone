@@ -3,6 +3,11 @@ using PolyZone.Shapes.Interfaces;
 
 namespace PolyZone.Shapes;
 
+/// <summary>
+/// A 2d rectangular shape, constructed from an upperLeft and bottomRight point
+/// </summary>
+/// <param name="upperLeft">Upper left point of the rectangle</param>
+/// <param name="bottomRight">Bottom right point of the rectangle</param>
 public class Rectangle(in Vector2 upperLeft, in Vector2 bottomRight) : IRectangle
 {
     public Vector2 UpperLeft { get; } = upperLeft;
