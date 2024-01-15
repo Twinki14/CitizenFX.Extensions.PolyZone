@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Collections.Concurrent;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 using CitizenFX.Core;
 using PolyZone.Benchmark.Tools;
@@ -15,28 +16,26 @@ public class PolygonBenchmarks
     [Params(50000, 100000)]
     public int Polygons;
     
-    [Params(500)]
+    [Params(250)]
     public int PointsPer;
 
-    private Polygon[] _polygons = [];
+    private readonly ConcurrentBag<Polygon> _polygons = [];
 
     private readonly Random _random = new(123123);
     
     [GlobalSetup]
     public void Setup()
     {
-        _polygons = new Polygon[Polygons];
-        
-        for (var i = 0; i < Polygons; i++)
+        Parallel.ForEach(Enumerable.Range(0, Polygons), _ =>
         {
             var netPolygon = RandomPolygonBuilder.Build(PointsPer, -100, 100, -100, 100);
-            
+
             var points = netPolygon.Coordinates
                 .Select(netPolygonCoordinate => new Vector2 { X = (float) netPolygonCoordinate.X, Y = (float) netPolygonCoordinate.Y })
                 .ToList();
-
-            _polygons[i] = new Polygon(points);
-        }
+            
+            _polygons.Add(new Polygon(points));
+        });
     }
 
     [Benchmark]
