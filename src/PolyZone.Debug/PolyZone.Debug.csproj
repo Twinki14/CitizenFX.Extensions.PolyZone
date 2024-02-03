@@ -5,18 +5,26 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>12</LangVersion>
-    <OutputPath>./bin/fivem/client</OutputPath>
-    <AssemblyName>CitizenFX.Extensions.PolyZone.Debug.net</AssemblyName>
+    <OutputPath>./bin/polyzone-debug/client</OutputPath>
+    <AssemblyName>polyzone.debug.net</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Drawing\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CitizenFX.Core.Client" Version="1.0.7277" />
+    <PackageReference Include="CitizenFX.Extensions.Client.Serilog" Version="2.12.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="fxmanifest.lua" >
+      <TargetPath>../fxmanifest.lua</TargetPath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\PolyZone\PolyZone.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,6 +4,6 @@ description 'A resource to debug & test CitizenFX.Extensions.PolyZone'
 fx_version 'bodacious'
 game 'gta5'
 
-file 'publish/**/*.dll'
+file 'client/**/*.dll'
 
-client_script 'publish/client/client.net.dll'
+client_script 'client/polyzone.debug.net.dll'
