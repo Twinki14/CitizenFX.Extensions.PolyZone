@@ -12,6 +12,11 @@ public class Circle(in Vector2 center, float radius) : ICircle
 {
     public Vector2 Center { get; } = center;
     public float Radius { get; } = radius;
+    
+    public Circle(float centerX, float centerY, float radius) : this(new Vector2 { X = centerX, Y = centerY }, radius)
+    {
+        
+    }
 
     /// <inheritdoc cref="ISpatial2dShape.Contains"/>
     public bool Contains(in Vector2 point)

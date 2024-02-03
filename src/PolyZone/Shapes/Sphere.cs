@@ -21,6 +21,5 @@ public class Sphere(in Vector3 center, float radius) : ISphere
 
         // Check if the distance is less than or equal to the radius
         return distance <= Radius;
-
     }
 }
