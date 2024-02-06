@@ -43,7 +43,7 @@ internal static class Helpers
                 {
                     var point = feature.Geometry as Point;
                     
-                    points.Add(new Vector2 { X = (float) point.Coordinates.Longitude, Y = (float) point.Coordinates.Latitude });
+                    points.Add(new Vector2 { X = (float) point!.Coordinates.Longitude, Y = (float) point.Coordinates.Latitude });
 
                     break;
                 }
