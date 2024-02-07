@@ -3,4 +3,4 @@
 /// <summary>
 /// A 2d circle
 /// </summary>
-public interface ICircle : ISpatial2dShape;
+public interface ICircle : IShape2d;

@@ -13,7 +13,7 @@ public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
 
     public IReadOnlyList<Vector2> Points { get; } = points;
 
-    /// <inheritdoc cref="ISpatial2dShape.Contains"/>
+    /// <inheritdoc />
     public bool Contains(in Vector2 point)
     {
         if (_boundingBox is null)
@@ -35,7 +35,7 @@ public class Polygon(IReadOnlyList<Vector2> points) : IPolygon
         return Contains(point, Points, _boundingBox);
     }
 
-    /// <inheritdoc cref="ISpatial2dShape.DistanceFrom"/>
+    /// <inheritdoc />
     public float DistanceFrom(in Vector2 point) => DistanceFrom(point, Points);
 
     // https://web.archive.org/web/20210225074947/http://geomalgorithms.com/a03-_inclusion.html

@@ -3,4 +3,4 @@
 /// <summary>
 /// A 3d cuboid shape
 /// </summary>
-public interface ICuboid : ISpatial3dShape;
+public interface ICuboid : IShape3d;

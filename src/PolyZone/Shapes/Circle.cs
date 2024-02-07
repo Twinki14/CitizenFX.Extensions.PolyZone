@@ -24,7 +24,7 @@ public class Circle(in Vector2 center, float radius) : ICircle
         
     }
 
-    /// <inheritdoc cref="ISpatial2dShape.Contains"/>
+    /// <inheritdoc />
     public bool Contains(in Vector2 point)
     {
         // Calculate the distance from the center of the circle to the given point
@@ -34,7 +34,7 @@ public class Circle(in Vector2 center, float radius) : ICircle
         return distance <= Radius;
     }
 
-    /// <inheritdoc cref="ISpatial2dShape.DistanceFrom"/>
+    /// <inheritdoc />
     public float DistanceFrom(in Vector2 point)
     {
         // Calculate the distance from the center of the circle to the given point

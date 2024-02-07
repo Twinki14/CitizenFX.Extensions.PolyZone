@@ -21,7 +21,7 @@ internal class Vector2Assertions(Vector2 instance) : ReferenceTypeAssertions<Vec
     private readonly Vector2 _instance = instance;
     protected override string Identifier => "directory";
 
-    internal AndConstraint<Vector2Assertions> BeInside(ISpatial2dShape shape, string because = "", params object[] becauseArgs)
+    internal AndConstraint<Vector2Assertions> BeInside(IShape2d shape, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -49,7 +49,7 @@ internal class Vector2Assertions(Vector2 instance) : ReferenceTypeAssertions<Vec
         return new AndConstraint<Vector2Assertions>(this);
     }
     
-    internal AndConstraint<Vector2Assertions> BeOutside(ISpatial2dShape shape, string because = "", params object[] becauseArgs)
+    internal AndConstraint<Vector2Assertions> BeOutside(IShape2d shape, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)

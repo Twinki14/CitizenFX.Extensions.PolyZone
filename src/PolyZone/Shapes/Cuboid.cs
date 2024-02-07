@@ -155,7 +155,7 @@ public class Cuboid : ICuboid
         Center = new Vector3 { X = (MinX + MaxX) / 2, Y = (MinY + MaxY) / 2, Z = (MinZ + MaxZ) / 2 };
     }
     
-    /// <inheritdoc cref="ISpatial3dShape.Contains"/>
+    /// <inheritdoc />
     public bool Contains(in Vector3 point)
     {
         // Check if the point is within the bounds defined by the corners of the cuboid
@@ -165,6 +165,7 @@ public class Cuboid : ICuboid
             point.Z >= MinZ && point.Z <= MaxZ;
     }
     
+    /// <inheritdoc />
     public float DistanceFrom(in Vector3 point)
     {
         if (Contains(point))

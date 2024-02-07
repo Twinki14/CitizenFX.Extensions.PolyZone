@@ -5,12 +5,15 @@ namespace PolyZone.Extensions;
 
 public static class VectorExtensions
 {
-    /// <inheritdoc cref="ISpatial2dShape.Contains"/>
-    public static bool IsInside(this Vector2 vector2, in ISpatial2dShape shape) => shape.Contains(vector2);
+    /// <inheritdoc cref="IShape2d.Contains"/>
+    public static bool IsInside(this Vector2 vector2, in IShape2d shape) => shape.Contains(vector2);
     
-    /// <inheritdoc cref="ISpatial2dShape.DistanceFrom"/>
-    public static float DistanceTo(this Vector2 vector2, in ISpatial2dShape shape) => shape.DistanceFrom(vector2);
+    /// <inheritdoc cref="IShape2d.DistanceFrom"/>
+    public static float DistanceTo(this Vector2 vector2, in IShape2d shape) => shape.DistanceFrom(vector2);
     
-    /// <inheritdoc cref="ISpatial3dShape.Contains"/>
-    public static bool IsInside(this Vector3 vector2, in ISpatial3dShape shape) => shape.Contains(vector2);
+    /// <inheritdoc cref="IShape3d.Contains"/>
+    public static bool IsInside(this Vector3 vector2, in IShape3d shape) => shape.Contains(vector2);
+    
+    /// <inheritdoc cref="IShape3d.DistanceFrom"/>
+    public static float DistanceTo(this Vector3 vector3, in IShape3d shape) => shape.DistanceFrom(vector3);
 }

@@ -13,14 +13,14 @@ public class Rectangle(in Vector2 upperLeft, in Vector2 bottomRight) : IRectangl
     public Vector2 UpperLeft { get; } = upperLeft;
     public Vector2 BottomRight { get; } = bottomRight;
     
-    /// <inheritdoc cref="ISpatial2dShape.Contains"/>
+    /// <inheritdoc />
     public bool Contains(in Vector2 point)
     {
         return point.X >= UpperLeft.X && point.X <= BottomRight.X &&
                point.Y >= UpperLeft.Y && point.Y <= BottomRight.Y;
     }
 
-    /// <inheritdoc cref="ISpatial2dShape.DistanceFrom"/>
+    /// <inheritdoc />
     public float DistanceFrom(in Vector2 point)
     {
         // Calculate the distance using Euclidean distance formula

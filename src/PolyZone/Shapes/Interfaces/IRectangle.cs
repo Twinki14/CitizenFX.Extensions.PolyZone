@@ -3,4 +3,4 @@
 /// <summary>
 /// A 2d rectangle / box
 /// </summary>
-public interface IRectangle : ISpatial2dShape;
+public interface IRectangle : IShape2d;

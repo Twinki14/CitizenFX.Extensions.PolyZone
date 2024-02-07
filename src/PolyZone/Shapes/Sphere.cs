@@ -13,7 +13,7 @@ public class Sphere(in Vector3 center, float radius) : ISphere
     public Vector3 Center { get; } = center;
     public float Radius { get; } = radius;
     
-    /// <inheritdoc cref="ISpatial3dShape.Contains"/>
+    /// <inheritdoc />
     public bool Contains(in Vector3 point)
     {
         // Calculate the distance from the center of the sphere to the given point
@@ -21,5 +21,11 @@ public class Sphere(in Vector3 center, float radius) : ISphere
 
         // Check if the distance is less than or equal to the radius
         return distance <= Radius;
+    }
+
+    /// <inheritdoc />
+    public float DistanceFrom(in Vector3 point)
+    {
+        throw new NotImplementedException();
     }
 }
