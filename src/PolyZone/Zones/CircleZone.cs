@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using PolyZone.Internal;
+using PolyZone.Extensions;
 using PolyZone.Shapes;
 using PolyZone.Zones.Interfaces;
 
@@ -24,8 +24,8 @@ public class CircleZone(in Vector2 center, float radius) : Circle(in center, rad
     }
 
     /// <inheritdoc />
-    public bool Contains(in Entity entity) => Contains(entity.Position.ToVector2());
+    public bool Contains(in Entity entity) => Contains(entity.Position.AsVector2());
 
     /// <inheritdoc />
-    public float DistanceFrom(in Entity entity) => DistanceFrom(entity.Position.ToVector2());
+    public float DistanceFrom(in Entity entity) => DistanceFrom(entity.Position.AsVector2());
 }

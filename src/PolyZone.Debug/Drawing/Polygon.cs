@@ -1,55 +1,95 @@
 ﻿using System.Drawing;
 using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using PolyZone.Shapes.Interfaces;
+using PolyZone.Extensions;
+using PolyZone.Zones;
 
 namespace PolyZone.Debug.Drawing;
 
 public static class PolygonExtensions
 {
-    public static IPolygon Draw(this IPolygon polygon, Color color)
+    public static void Draw(this PolygonZone polygon, in Color color, in Color lineColor)
     {
-        /*for (var i = 0; i < polygon.Points.Count - 1; i++)
-        {
-            var startPoint = polygon.Points[i];
-            var endPoint = polygon.Points[i + 1];
+        var minZ = polygon.MinZ;
+        var maxZ = polygon.MaxZ;
 
-            DrawPoly(startPoint, endPoint, r, g, b, a);
-        }*/
+        var drawCrisscross = maxZ - minZ <= 80;
+        
+        for (var i = 0; i < polygon.Points.Count - 1; i++)
+        {
+            var currentPoint = polygon.Points[i];
+            var nextPoint = polygon.Points[i + 1];
+
+            var currentMinZ = currentPoint.AsVector3(minZ);
+            var currentMaxZ = currentPoint.AsVector3(maxZ);
+
+            var nextMinZ = nextPoint.AsVector3(minZ);
+            var nextMaxZ = nextPoint.AsVector3(maxZ);
+            
+            World.DrawPoly(currentMaxZ, nextMaxZ, nextMinZ, color);
+            World.DrawPoly(nextMinZ, currentMinZ, currentMaxZ, color);
+            
+            World.DrawPoly(nextMinZ, nextMaxZ, currentMaxZ, color);
+            World.DrawPoly(currentMaxZ, currentMinZ, nextMinZ, color);
+            
+            // Edge / Pillar
+            World.DrawLine(currentMinZ, currentMaxZ, lineColor);
+            
+            // Edges
+            World.DrawLine(currentMaxZ, nextMaxZ, lineColor);
+            World.DrawLine(currentMinZ, nextMinZ, lineColor);
+            
+            // Crisscross
+            if (drawCrisscross)
+            {
+                World.DrawLine(currentMaxZ, nextMinZ, lineColor);
+                World.DrawLine(nextMaxZ, currentMinZ, lineColor);
+            }
+        }
         
         var start = polygon.Points.ElementAt(polygon.Points.Count - 1);
         var end = polygon.Points.ElementAt(0);
         
-        var bottomLeft = new Vector3(start.X, start.Y, 200);
-        var topLeft = new Vector3(start.X, start.Y, 400);
-        var bottomRight = new Vector3(end.X, end.Y, 200);
-        var topRight = new Vector3(end.X, end.Y, 400);
+        var startMinZ = start.AsVector3(minZ);
+        var startMaxZ = start.AsVector3(maxZ);
+
+        var endMinZ = end.AsVector3(minZ);
+        var endMaxZ = end.AsVector3(maxZ);
         
-        API.DrawPoly(
-            bottomLeft.X, bottomLeft.Y, bottomLeft.Z,
-            topLeft.X, topLeft.Y, topLeft.Z,
-            bottomRight.X, bottomRight.Y, bottomLeft.Z,
-            color.R, color.G, color.B, color.A);
+        World.DrawPoly(endMaxZ, endMinZ, startMinZ, color);
+        World.DrawPoly(startMaxZ, startMinZ, endMaxZ, color);
         
-        API.DrawPoly(
-            topLeft.X, topLeft.Y, topLeft.Z,
-            topRight.X, topRight.Y, topRight.Z,
-            bottomRight.X, bottomRight.Y, bottomLeft.Z,
-            color.R, color.G, color.B, color.A);
-                
-        API.DrawPoly(
-            bottomRight.X, bottomRight.Y, bottomRight.Z,
-            topRight.X, topRight.Y, topRight.Z,
-            topLeft.X, topLeft.Y, topLeft.Z,
-            color.R, color.G, color.B, color.A);
+        World.DrawPoly(startMinZ, endMinZ, endMaxZ, color);
+        World.DrawPoly(endMaxZ, startMinZ, startMaxZ, color);
         
-        API.DrawPoly(
-            bottomRight.X, bottomRight.Y, bottomRight.Z,
-            topLeft.X, topLeft.Y, topLeft.Z,
-            bottomLeft.X, bottomLeft.Y, bottomLeft.Z,
-            color.R, color.G, color.B, color.A);
+        // Edge / Pillar
+        World.DrawLine(startMaxZ, startMinZ, lineColor);
+            
+        // Edges
+        World.DrawLine(startMaxZ, endMaxZ, lineColor);
+        World.DrawLine(startMinZ, endMinZ, lineColor);
         
+        // Crisscross
+        if (drawCrisscross)
+        {
+            World.DrawLine(startMaxZ, endMinZ, lineColor);
+            World.DrawLine(endMaxZ, startMinZ, lineColor);
+        }
+    }
+
+    public static void DrawDebug(this PolygonZone polygonZone, Entity? comparativeEntity = null)
+    {
+        comparativeEntity ??= Game.Player.Character;
+
+        const int alpha = 45;
+        var insideColor = Color.FromArgb(alpha, 0, 255, 0);
+        var outsideColor = Color.FromArgb(alpha, 255, 0, 0);
+        var lineColor = Color.FromArgb(175, 255, 255, 255);
+
+        var isInside = comparativeEntity.IsInside(polygonZone);
+        var color = isInside ? insideColor : outsideColor;
         
-        return polygon;
+        polygonZone.Draw(color, lineColor);
+        
+        Internal.Drawing.Draw3dText(polygonZone.Points.First().AsVector3(35), $"Distance: { comparativeEntity.DistanceTo(polygonZone) }", Color.FromArgb(0, 255, 0), 20.0f);
     }
 }

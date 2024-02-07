@@ -8,35 +8,6 @@ namespace PolyZone.Shapes;
 /// </summary>
 public class Cuboid : ICuboid
 {
-    public float Length { get; }
-    public float Width { get; }
-    public float Height { get; }
-    
-    public float MinX { get; }
-    public float MinY { get; }
-    public float MinZ { get; }
-    
-    public float MaxX { get; }
-    public float MaxY { get; }
-    public float MaxZ { get; }
-    
-    public Vector3 Center { get; }
-    
-    /// <summary>
-    /// Calculated corners of the <see cref="Cuboid"/>, starts with the starting vertex and ends with the ending vertex
-    /// <list>
-    /// <item>[0] - Top - Upper Left (Start)</item>
-    /// <item>[1] - Top - Upper Right</item>
-    /// <item>[2] - Top - Lower Right</item>
-    /// <item>[3] - Top - Lower Left</item>
-    /// <item>[4] - Bottom - Upper Left</item>
-    /// <item>[5] - Bottom - Upper Right</item>
-    /// <item>[6] - Bottom - Lower Right</item>
-    /// <item>[7] - Bottom - Lower Left (End)</item>
-    /// </list>
-    /// </summary>
-    public Vector3[] Corners { get; }
-    
     /// <summary>
     /// A 3d cuboid shape, constructed from a starting vertex point with a defined length, width, and height 
     /// </summary>
@@ -154,6 +125,35 @@ public class Cuboid : ICuboid
         
         Center = new Vector3 { X = (MinX + MaxX) / 2, Y = (MinY + MaxY) / 2, Z = (MinZ + MaxZ) / 2 };
     }
+    
+    public float Length { get; }
+    public float Width { get; }
+    public float Height { get; }
+    
+    public float MinX { get; }
+    public float MinY { get; }
+    public float MinZ { get; }
+    
+    public float MaxX { get; }
+    public float MaxY { get; }
+    public float MaxZ { get; }
+    
+    public Vector3 Center { get; }
+    
+    /// <summary>
+    /// Calculated corners of the <see cref="Cuboid"/>, starts with the starting vertex and ends with the ending vertex
+    /// <list>
+    /// <item>[0] - Top - Upper Left (Start)</item>
+    /// <item>[1] - Top - Upper Right</item>
+    /// <item>[2] - Top - Lower Right</item>
+    /// <item>[3] - Top - Lower Left</item>
+    /// <item>[4] - Bottom - Upper Left</item>
+    /// <item>[5] - Bottom - Upper Right</item>
+    /// <item>[6] - Bottom - Lower Right</item>
+    /// <item>[7] - Bottom - Lower Left (End)</item>
+    /// </list>
+    /// </summary>
+    public Vector3[] Corners { get; }
     
     /// <inheritdoc />
     public bool Contains(in Vector3 point)

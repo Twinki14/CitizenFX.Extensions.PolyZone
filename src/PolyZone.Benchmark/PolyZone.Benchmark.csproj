@@ -3,6 +3,7 @@
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <NoWarn>NU1701;NU1702</NoWarn>
     <TargetFrameworks>net8.0;netstandard2.0;net472</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <LangVersion>12</LangVersion>

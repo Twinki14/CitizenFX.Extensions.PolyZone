@@ -1,9 +1,10 @@
 ﻿using CitizenFX.Core;
+using PolyZone.Shapes.Interfaces;
 
 namespace PolyZone.Zones.Interfaces;
 
 /// <summary>
-/// 
+/// A zone or area in the world represented by an underlying <see cref="IShape2d"/> or <see cref="IShape3d"/>
 /// </summary>
 public interface IZone
 {
